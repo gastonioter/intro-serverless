@@ -55,3 +55,43 @@
 </style>
 
 <h1>Movies, Floofed</h1>
+
+
+<div class="movies">
+
+</div>
+
+<template id="movie-template">
+  <div class="movie">
+    <img src="" alt="">
+    <h2></h2>
+    <p class="tagline"></p>
+    <h3>View ratings</h3>
+    <ul class="scores"></ul>
+  </div>
+</template>
+
+<script>
+  async function init() {
+    const movies = await fetch('./.netlify/functions/movies').then(res => res.json());
+
+    console.log(movies)
+    const container = document.querySelector('.movies');
+
+    const template = document.getElementById('movie-template');
+
+    movies.forEach(movie=>{
+      const element = template.content.cloneNode(true);
+
+      element.querySelector('img').src = movie.poster;
+      element.querySelector('img').alt = movie.title;
+
+      element.querySelector('h2').innerText = movie.title;
+      element.querySelector('.tagline').innerText = movie.tagline;
+
+      container.appendChild(element);
+    })
+
+  }
+  init();
+</script>
